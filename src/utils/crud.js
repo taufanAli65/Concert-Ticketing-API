@@ -14,7 +14,7 @@ async function deleteData(collectionName, docID) {
     const message = `Document ID : ${docID} in ${collectionName} deleted successfully!`;
     return message;
   } catch (error) {
-      throw error;
+    throw error;
   }
 }
 
@@ -25,7 +25,7 @@ async function edit(collectionName, docID, newData) {
     const data = updatedDoc.data();
     return data;
   } catch (error) {
-      throw error;
+    throw error;
   }
 }
 
@@ -38,7 +38,7 @@ async function getAll(collectionName) {
     });
     return data;
   } catch (error) {
-      throw error;
+    throw error;
   }
 }
 
@@ -52,7 +52,7 @@ async function get(collectionName, docID) {
     const data = docSnapshot.data();
     return data;
   } catch (error) {
-      throw error;
+    throw error;
   }
 }
 

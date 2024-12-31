@@ -1,8 +1,9 @@
 const db = require("../firebase-config");
 
-async function add(collectionName, data) {
+async function add(collectionName, dataToSend) {
   try {
-    await db.collection(collectionName).add(data);
+    const data = await db.collection(collectionName).add(dataToSend);
+    return data;
   } catch (error) {
     throw error;
   }

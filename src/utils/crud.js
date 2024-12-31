@@ -3,7 +3,7 @@ const db = require("../firebase-config");
 async function add(collectionName, dataToSend) {
   try {
     const data = await db.collection(collectionName).add(dataToSend);
-    return data;
+    return { id: data.id, data: dataToSend };
   } catch (error) {
     throw error;
   }

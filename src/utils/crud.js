@@ -1,9 +1,10 @@
-const db = require("../firebase-config");
+const { db } = require("../firebase-config");
 
 async function add(collectionName, dataToSend) {
   try {
     const data = await db.collection(collectionName).add(dataToSend);
-    return { id: data.id, data: dataToSend };
+    await data.update({ id: data.id });
+    return { id: data.id, ...dataToSend };
   } catch (error) {
     throw error;
   }
@@ -21,7 +22,7 @@ async function deleteData(collectionName, docID) {
 
 async function edit(collectionName, docID, newData) {
   try {
-    await db.collection(collection).doc(docID).update(newData);
+    await db.collection(collectionName).doc(docID).update(newData);
     const updatedDoc = await db.collection(collectionName).doc(docID).get();
     const data = updatedDoc.data();
     return data;

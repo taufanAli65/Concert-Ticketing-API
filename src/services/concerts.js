@@ -2,7 +2,7 @@ const { add, getAll, get, edit, deleteData } = require("../utils/crud");
 
 async function addConcert(dataToSend) {
     try {
-        const concert = add("concert", dataToSend)
+        const concert = add("concerts", dataToSend)
         return concert;
     } catch (error) {
         throw error;
@@ -38,8 +38,7 @@ async function editConcert(docID, dataToEdit) {
 
 async function deleteConcert(docID) {
     try {
-        const concertToDelete = await deleteData(docID);
-        return concertToDelete;
+        await deleteData("concerts", docID);
     } catch (error) {
         throw error;
     }

@@ -10,6 +10,19 @@ async function createConcert(req, res) {
   try {
     const { name, date, time, location, ticket_price, available_tickets } =
       req.body;
+
+    //validation input
+    if (
+      !name ||
+      !date ||
+      !time ||
+      !location ||
+      !ticket_price ||
+      !available_tickets
+    ) {
+      return res.status(400).json({ message: "Invalid input data" });
+    }
+
     const dataToSend = await addConcert({
       name,
       date,
@@ -64,7 +77,7 @@ async function updateConcert(req, res) {
     const concertID = req.params.id;
     const { name, date, time, location, ticket_price, available_tickets } =
       req.body;
-    const editedConcertData = editConcert(concertID, {
+    const editedConcertData = await editConcert(concertID, {
       name,
       date,
       time,
@@ -87,7 +100,7 @@ async function deletedConcert(req, res) {
   try {
     const concertID = req.params.id;
     await deleteConcert(concertID);
-    res.status(200).json({message: "Concert Deleted Successfully"});
+    res.status(200).json({ message: "Concert Deleted Successfully" });
   } catch (error) {
     res
       .status(500)

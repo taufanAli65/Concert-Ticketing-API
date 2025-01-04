@@ -14,16 +14,16 @@ const {
 async function createTicket(req, res) {
   const date = getCurrentDateTime();
   try {
-    const { concert_id, userID, seat_info } = req.body;
+    const { concert_id, userID, ticket_types } = req.body;
     const ticketInfo = {
       concert_id: concert_id,
       userID: userID,
-      seat_info: seat_info,
+      ticket_types: ticket_types,
       purchase_timestamp: getCurrentFormattedDateTime(date),
     };
 
     //validation input
-    if (!concert_id || !userID || !seat_info) {
+    if (!concert_id || !userID || !ticket_types) {
       return res.status(400).json({ message: "Invalid input data" });
     }
 
@@ -74,11 +74,11 @@ async function updateTicket(req, res) {
   try {
     const ticketID = req.params.id;
     //const userID = req.user.uid;
-    const { concert_id, userID, seat_info } = req.body;
+    const { concert_id, userID, ticket_types } = req.body;
     const ticketData = await editTicket(ticketID, {
       concert_id,
       userID,
-      seat_info,
+      ticket_types,
     });
     res
       .status(200)

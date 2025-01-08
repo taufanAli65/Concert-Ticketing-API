@@ -20,7 +20,9 @@ async function createConcert(req, res) {
       !ticket_price ||
       !available_tickets
     ) {
-      return res.status(400).json({ message: "Invalid input data" });
+      return res
+        .status(400)
+        .json({ message: "Mising Some Fields Data, Please Try Again" });
     }
 
     const dataToSend = await addConcert({
@@ -77,6 +79,20 @@ async function updateConcert(req, res) {
     const concertID = req.params.id;
     const { name, date, time, location, ticket_price, available_tickets } =
       req.body;
+
+    if (
+      !name ||
+      !date ||
+      !time ||
+      !location ||
+      !ticket_price ||
+      !available_tickets
+    ) {
+      res
+        .status(500)
+        .json({ message: "Mising Some Fields Data, Please Try Again" });
+    }
+
     const editedConcertData = await editConcert(concertID, {
       name,
       date,

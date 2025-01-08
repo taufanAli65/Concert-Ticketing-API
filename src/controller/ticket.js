@@ -24,16 +24,16 @@ async function createTicket(req, res) {
 
     //validation input
     if (!concert_id || !userID || !ticket_types) {
-      return res.status(400).json({ message: "Invalid input data" });
+      return res
+        .status(400)
+        .json({ message: "Mising Some Fields Data, Please Try Again" });
     }
 
     const createdTicket = await addTicket(ticketInfo);
-    res
-      .status(200)
-      .json({
-        message: "Ticket Created Successfully",
-        ticketData: createdTicket,
-      });
+    res.status(200).json({
+      message: "Ticket Created Successfully",
+      ticketData: createdTicket,
+    });
   } catch (error) {
     res.status(500).json({
       message: "Ticket Not Created Successfully",
@@ -75,6 +75,13 @@ async function updateTicket(req, res) {
     const ticketID = req.params.id;
     //const userID = req.user.uid;
     const { concert_id, userID, ticket_types } = req.body;
+
+    if (!concert_id || !userID || !ticket_types) {
+      res
+        .status(500)
+        .json({ message: "Mising Some Fields Data, Please Try Again" });
+    }
+
     const ticketData = await editTicket(ticketID, {
       concert_id,
       userID,

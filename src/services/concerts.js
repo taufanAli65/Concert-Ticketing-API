@@ -1,8 +1,8 @@
-const { add, getAll, get, edit, deleteData } = require("../utils/crud");
+const { addDataWithGeneratedID, getAll, get, edit, deleteData } = require("../utils/crud");
 
 async function addConcert(dataToSend) {
   try {
-    const concert = add("concerts", dataToSend);
+    const concert = addDataWithGeneratedID("concerts", dataToSend);
     return concert;
   } catch (error) {
     throw error;

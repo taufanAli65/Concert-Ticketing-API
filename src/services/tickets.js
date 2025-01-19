@@ -1,8 +1,8 @@
-const { add, getAll, get, edit, deleteData, getAllByUser } = require("../utils/crud");
+const { addDataWithGeneratedID, get, edit, deleteData, getAllByUser } = require("../utils/crud");
 
 async function addTicket(dataToSend) {
   try {
-    const ticket = await add("tickets", dataToSend);
+    const ticket = await addDataWithGeneratedID("tickets", dataToSend);
     return ticket;
   } catch (error) {
     throw error;

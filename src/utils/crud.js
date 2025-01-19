@@ -1,10 +1,19 @@
 const { db } = require("../firebase-config");
 
-async function add(collectionName, dataToSend) {
+async function addDataWithGeneratedID(collectionName, dataToSend) {
   try {
     const data = await db.collection(collectionName).add(dataToSend);
     await data.update({ id: data.id });
     return { id: data.id, ...dataToSend };
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function addDataWithoutGeneratedID(collectionName, documentID, dataToSend) {
+  try {
+    await db.collection(collectionName).doc(documentID).set(dataToSend);
+    return { id: documentID, ...dataToSend };
   } catch (error) {
     throw error;
   }
@@ -74,4 +83,4 @@ async function get(collectionName, docID) {
   }
 }
 
-module.exports = { add, getAll, get, edit, deleteData, getAllByUser };
+module.exports = { addDataWithGeneratedID, addDataWithoutGeneratedID, getAll, get, edit, deleteData, getAllByUser };

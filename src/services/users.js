@@ -25,6 +25,9 @@ async function login(email, password) {
 
 async function register(email, password, name) {
   try {
+    if(!email || !password || !name) {
+      throw new error("Missing Some Field Data!");
+    }
     const user = await createUser(email, password, name);
     return { name: user.displayName, email: user.email };
   } catch (error) {

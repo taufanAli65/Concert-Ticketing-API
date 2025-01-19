@@ -62,6 +62,11 @@ async function readTicket(req, res) {
   try {
     const ticketID = req.params.id;
     const ticketData = await getTicket(ticketID);
+    if (ticketData.userID != req.user.uid) {
+      res
+        .status(403)
+        .json({ message: "Anauthorized, Cannot Read Other User Ticket!" });
+    } //user cannot read other user data
     res
       .status(200)
       .json({ message: "Ticket Fetched Successfully", ticket: ticketData });
@@ -82,14 +87,21 @@ async function updateTicket(req, res) {
         .status(500)
         .json({ message: "Mising Some Fields Data, Please Try Again" });
     }
-
-    const ticketData = await editTicket(ticketID, {
-      concertID,
-      ticket_types,
-    });
-    res
-      .status(200)
-      .json({ message: "Ticket Updated Successfully", ticket: ticketData });
+    const ticketData = await getTicket(ticketID); //read ticket data
+    if (ticketData.userID != req.user.uid) {
+      res
+        .status(403)
+        .json({ message: "Anauthorized, Cannot Update Other User Ticket!" });
+    } //user cannot read other user data
+    else {
+      const ticketData = await editTicket(ticketID, {
+        concertID,
+        ticket_types,
+      });
+      res
+        .status(200)
+        .json({ message: "Ticket Updated Successfully", ticket: ticketData });
+    }
   } catch (error) {
     res
       .status(500)
@@ -100,8 +112,16 @@ async function updateTicket(req, res) {
 async function deletedTicket(req, res) {
   try {
     const ticketID = req.params.id;
-    await deleteTicket(ticketID);
-    res.status(200).json({ message: "Ticket Deleted Successfully" });
+    const ticketData = await getTicket(ticketID); //read ticket data
+    if (ticketData.userID != req.user.uid) {
+      res
+        .status(403)
+        .json({ message: "Anauthorized, Cannot Delete Other User Ticket!" });
+    } //user cannot read other user data
+    else {
+      await deleteTicket(ticketID);
+      res.status(200).json({ message: "Ticket Deleted Successfully" });
+    }
   } catch (error) {
     res
       .status(500)

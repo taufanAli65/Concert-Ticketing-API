@@ -24,17 +24,19 @@ This project is a concert ticketing system that allows users to create, retrieve
    npm install
    ```
 
-3. Set up your Firebase service account key:
+3. Ensure you have Node.js installed (version 20 or higher is recommended).
+
+4. Set up your Firebase service account key:
    - Download your `serviceAccountKey.json` from Firebase Console.
    - Place the `serviceAccountKey.json` file in the root directory of the project.
 
-4. Set up environment variables in a `.env` file:
+5. Set up environment variables in a `.env` file:
    ```env
    APP_PORT=3000
    FIREBASE_API_KEY=your_firebase_web_api
    ```
 
-5. Start the server:
+6. Start the server:
    ```bash
    npm start
    ```
@@ -256,6 +258,21 @@ This project is a concert ticketing system that allows users to create, retrieve
     ```json
     {
       "message": "Ticket Deleted Successfully"
+    }
+    ```
+
+#### Users
+
+- **Get User Info**: `GET /user`
+  - **Response**:
+    ```json
+    {
+      "message": "Retrieve User Information Success",
+      "user": {
+        "uid": "userId",
+        "email": "testuser@example.com",
+        "name": "Test User"
+      }
     }
     ```
 

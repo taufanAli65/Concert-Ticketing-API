@@ -61,8 +61,9 @@ async function readTickets(req, res) {
 async function readTicket(req, res) {
   try {
     const ticketID = req.params.id;
+    const userID = req.user.uid;
     const ticketData = await getTicket(ticketID);
-    if (ticketData.userID != req.user.uid) {
+    if (ticketData.userID != userID) {
       res
         .status(403)
         .json({ message: "Anauthorized, Cannot Read Other User Ticket!" });
@@ -80,6 +81,7 @@ async function readTicket(req, res) {
 async function updateTicket(req, res) {
   try {
     const ticketID = req.params.id;
+    const userID = req.user.uid;
     const { concertID, ticket_types } = req.body;
 
     if (!concertID || !ticket_types) {
@@ -88,7 +90,7 @@ async function updateTicket(req, res) {
         .json({ message: "Mising Some Fields Data, Please Try Again" });
     }
     const ticketData = await getTicket(ticketID); //read ticket data
-    if (ticketData.userID != req.user.uid) {
+    if (ticketData.userID != userID) {
       res
         .status(403)
         .json({ message: "Anauthorized, Cannot Update Other User Ticket!" });
@@ -112,8 +114,9 @@ async function updateTicket(req, res) {
 async function deletedTicket(req, res) {
   try {
     const ticketID = req.params.id;
+    const userID = req.user.uid;
     const ticketData = await getTicket(ticketID); //read ticket data
-    if (ticketData.userID != req.user.uid) {
+    if (ticketData.userID != userID) {
       res
         .status(403)
         .json({ message: "Anauthorized, Cannot Delete Other User Ticket!" });

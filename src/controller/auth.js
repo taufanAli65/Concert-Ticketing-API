@@ -1,4 +1,4 @@
-const { login, register } = require("../services/users");
+const { login, register } = require("../services/auth");
 
 async function getLogin(req, res) {
   try {

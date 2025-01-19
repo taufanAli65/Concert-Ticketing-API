@@ -14,7 +14,8 @@ const {
 async function createTicket(req, res) {
   const date = getCurrentDateTime();
   try {
-    const { concert_id, userID, ticket_types } = req.body;
+    const { concert_id, ticket_types } = req.body;
+    const userID = req.user.uid;
     const ticketInfo = {
       concert_id: concert_id,
       userID: userID,
@@ -23,7 +24,7 @@ async function createTicket(req, res) {
     };
 
     //validation input
-    if (!concert_id || !userID || !ticket_types) {
+    if (!concert_id || !ticket_types) {
       return res
         .status(400)
         .json({ message: "Mising Some Fields Data, Please Try Again" });
@@ -73,10 +74,9 @@ async function readTicket(req, res) {
 async function updateTicket(req, res) {
   try {
     const ticketID = req.params.id;
-    //const userID = req.user.uid;
-    const { concert_id, userID, ticket_types } = req.body;
+    const { concert_id, ticket_types } = req.body;
 
-    if (!concert_id || !userID || !ticket_types) {
+    if (!concert_id || !ticket_types) {
       res
         .status(500)
         .json({ message: "Mising Some Fields Data, Please Try Again" });
@@ -84,7 +84,6 @@ async function updateTicket(req, res) {
 
     const ticketData = await editTicket(ticketID, {
       concert_id,
-      userID,
       ticket_types,
     });
     res

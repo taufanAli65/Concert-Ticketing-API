@@ -10,7 +10,6 @@ async function createConcert(req, res) {
   try {
     const { name, date, time, location, ticket_price, available_tickets } =
       req.body;
-
     //validation input
     if (
       !name ||
@@ -22,7 +21,7 @@ async function createConcert(req, res) {
     ) {
       return res
         .status(400)
-        .json({ message: "Mising Some Fields Data, Please Try Again" });
+        .json({ message: "Invalid input data" });
     }
 
     const dataToSend = await addConcert({

@@ -44,6 +44,22 @@ async function getAll(collectionName) {
   }
 }
 
+async function getAllByUser(collectionName, userID) {
+  const data = [];
+  try {
+    const snapshot = await db
+      .collection(collectionName)
+      .where("userID", "==", userID)
+      .get();
+    snapshot.forEach((doc) => {
+      data.push(doc.data());
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function get(collectionName, docID) {
   try {
     const docRef = db.collection(collectionName).doc(docID);
@@ -58,4 +74,4 @@ async function get(collectionName, docID) {
   }
 }
 
-module.exports = { add, getAll, get, edit, deleteData };
+module.exports = { add, getAll, get, edit, deleteData, getAllByUser };

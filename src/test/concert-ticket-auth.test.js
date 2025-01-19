@@ -56,8 +56,7 @@ describe("Concert, Ticket, and Auth API", () => {
       .post("/ticket")
       .set("Authorization", `Bearer ${authToken}`)
       .send({
-        concert_id: concertId,
-        userID: "testuser@example.com",
+        concertID: concertId,
         ticket_types: ["VIP", "Regular"],
       });
     expect(response.status).toBe(200);
@@ -127,7 +126,7 @@ describe("Concert, Ticket, and Auth API", () => {
       .put(`/ticket/${ticketId}`)
       .set("Authorization", `Bearer ${authToken}`)
       .send({
-        concert_id: concertId,
+        concertID: concertId,
         userID: "testuser@example.com",
         ticket_types: ["VIP", "Regular", "Balcony"],
       });

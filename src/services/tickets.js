@@ -1,4 +1,4 @@
-const { add, getAll, get, edit, deleteData } = require("../utils/crud");
+const { add, getAll, get, edit, deleteData, getAllByUser } = require("../utils/crud");
 
 async function addTicket(dataToSend) {
   try {
@@ -9,9 +9,9 @@ async function addTicket(dataToSend) {
   }
 }
 
-async function getTickets() {
+async function getTickets(userID) {
   try {
-    const tickets = await getAll("tickets");
+    const tickets = await getAllByUser("tickets", userID);
     return tickets;
   } catch (error) {
     throw error;

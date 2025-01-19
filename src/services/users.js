@@ -1,3 +1,5 @@
+const { createUser } = require("../utils/authentication")
+
 async function login(email, password) {
   require("dotenv").config();
   const apiKey = process.env.FIREBASE_API_KEY;

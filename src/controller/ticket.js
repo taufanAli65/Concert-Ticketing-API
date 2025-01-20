@@ -64,9 +64,9 @@ async function readTicket(req, res) {
     const userID = req.user.uid;
     const ticketData = await getTicket(ticketID);
     if (ticketData.userID != userID) {
-      res
+      return res
         .status(403)
-        .json({ message: "Anauthorized, Cannot Read Other User Ticket!" });
+        .json({ message: "Unauthorized, Cannot Read Other User Ticket!" });
     } //user cannot read other user data
     res
       .status(200)
@@ -93,7 +93,7 @@ async function updateTicket(req, res) {
     if (ticketData.userID != userID) {
       res
         .status(403)
-        .json({ message: "Anauthorized, Cannot Update Other User Ticket!" });
+        .json({ message: "Unauthorized, Cannot Update Other User Ticket!" });
     } //user cannot read other user data
     else {
       const ticketData = await editTicket(ticketID, {
@@ -117,14 +117,12 @@ async function deletedTicket(req, res) {
     const userID = req.user.uid;
     const ticketData = await getTicket(ticketID); //read ticket data
     if (ticketData.userID != userID) {
-      res
+      return res
         .status(403)
-        .json({ message: "Anauthorized, Cannot Delete Other User Ticket!" });
+        .json({ message: "Unauthorized, Cannot Delete Other User Ticket!" });
     } //user cannot read other user data
-    else {
-      await deleteTicket(ticketID);
-      res.status(200).json({ message: "Ticket Deleted Successfully" });
-    }
+    await deleteTicket(ticketID);
+    res.status(200).json({ message: "Ticket Deleted Successfully" });
   } catch (error) {
     res
       .status(500)

@@ -100,4 +100,13 @@ describe("Concert, Ticket, and Auth API - POST", () => {
     expect(response.status).toBe(400);
     expect(response.body.message).toBe("Invalid input data");
   }, 10000);
+
+  afterAll(async () => {
+    await request(app)
+      .delete(`/ticket/${ticketId}`)
+      .set("Authorization", `Bearer ${authToken}`);
+    await request(app)
+      .delete(`/concert/${concertId}`)
+      .set("Authorization", `Bearer ${authToken}`);
+  });
 });

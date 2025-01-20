@@ -91,4 +91,13 @@ describe("Concert, Ticket, and Auth API - DELETE", () => {
     expect(response.status).toBe(403);
     expect(response.body.message).toBe("Unauthorized, Cannot Delete Other User Ticket!");
   }, 10000);
+
+  afterAll(async () => {
+    await request(app)
+      .delete(`/ticket/${ticketId}`)
+      .set("Authorization", `Bearer ${authToken}`);
+    await request(app)
+      .delete(`/concert/${concertId}`)
+      .set("Authorization", `Bearer ${authToken}`);
+  });
 });

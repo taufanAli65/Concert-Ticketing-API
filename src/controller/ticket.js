@@ -121,8 +121,8 @@ async function deletedTicket(req, res) {
         .status(403)
         .json({ message: "Unauthorized, Cannot Delete Other User Ticket!" });
     } //user cannot read other user data
-    await deleteTicket(ticketID);
-    res.status(200).json({ message: "Ticket Deleted Successfully" });
+    const deleted = await deleteTicket(ticketID);
+    res.status(200).json({ message: deleted });
   } catch (error) {
     res
       .status(500)

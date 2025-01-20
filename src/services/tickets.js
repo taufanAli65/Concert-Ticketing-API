@@ -39,6 +39,7 @@ async function editTicket(docID, dataToEdit) {
 async function deleteTicket(docID) {
   try {
     await deleteData("tickets", docID);
+    return "Ticket Deleted Successfully"
   } catch (error) {
     throw error;
   }

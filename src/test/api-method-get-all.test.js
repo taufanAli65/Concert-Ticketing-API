@@ -12,6 +12,8 @@ app.use("/ticket", ticketRouter);
 app.use("/auth", authRouter);
 
 describe("Concert, Ticket, and Auth API - GET", () => {
+  let concertId;
+  let ticketId;
   let authToken;
 
   beforeAll(async () => {
@@ -27,6 +29,29 @@ describe("Concert, Ticket, and Auth API - GET", () => {
       password: "password123",
     });
     authToken = loginResponse.body.idToken;
+
+    // Create a concert and ticket for testing
+    const concertResponse = await request(app)
+      .post("/concert")
+      .set("Authorization", `Bearer ${authToken}`)
+      .send({
+        name: "Concert 1",
+        date: "2023-12-01",
+        time: "19:00",
+        location: "Venue 1",
+        ticket_price: 50,
+        available_tickets: 100,
+      });
+    concertId = concertResponse.body.concertData.id;
+
+    const ticketResponse = await request(app)
+      .post("/ticket")
+      .set("Authorization", `Bearer ${authToken}`)
+      .send({
+        concertID: concertId,
+        ticket_types: "VIP",
+      });
+    ticketId = ticketResponse.body.ticketData.id;
   }, 30000);
 
   it("should fetch all concerts", async () => {
@@ -46,4 +71,13 @@ describe("Concert, Ticket, and Auth API - GET", () => {
     expect(response.body.message).toBe("Tickets Fetched Successfully");
     expect(response.body.tickets.length).toBeGreaterThan(0);
   }, 10000);
+
+  afterAll(async () => {
+    await request(app)
+      .delete(`/ticket/${ticketId}`)
+      .set("Authorization", `Bearer ${authToken}`);
+    await request(app)
+      .delete(`/concert/${concertId}`)
+      .set("Authorization", `Bearer ${authToken}`);
+  });
 });
